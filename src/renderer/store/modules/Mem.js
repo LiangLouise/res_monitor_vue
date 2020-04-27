@@ -2,21 +2,21 @@ let { mem } = require('systeminformation');
 
 const state = {
     memory_usage: 0,
-    memory_total: 0
-}
+    memory_total: 0,
+    memory_interval: null
+};
 
 const getters = {
     memUsage: (state) => {
-      return {
-        memory_usage: state.memory_usage
-      }
+      return state.memory_usage
     },
     memTotal: (state) => {
-        return {
-            memory_total: state.memory_total
-        }
+        return state.memory_total
+    },
+    memInterval: (state) => {
+        return state.memory_interval
     }
-}
+};
 
 // mutations
 const mutations = {
@@ -25,26 +25,40 @@ const mutations = {
     },
     setTotalMemory(state, memory_total) {
         state.memory_total = memory_total
+    },
+    setMemInterval(state, internal) {
+        state.memory_interval = internal
+    },
+    clearMemInterval(state) {
+        clearInterval(state.memory_interval)
     }
-}
+};
 
 // actions
 const actions = {
-    updateMemoryData({commit}) {
-        mem().then(data => {
-            commit('setMemoryMemoryUsage', Number((data.used / data.total * 100).toFixed(2)))
-            if (state.memory_total === 0) commit('setTotalMemory', (data.total / Math.pow(1024, 3)).toFixed(2))
-        })
-        .catch(err => {
-            console.log(err)
-        })
+    initMemData({commit, rootState}) {
+        if (!rootState.memory_interval) {
+            commit('setMemInterval', setInterval(() => {
+                mem().then(data => {
+                    commit('setMemoryMemoryUsage', Number((data.used / data.total * 100).toFixed(2)));
+                    if (rootState.memory_total === 0) commit('setTotalMemory', (data.total / Math.pow(1024, 3)).toFixed(2));
+                })
+                .catch(err => {
+                    console.log(err)
+                })
+            }, 2000))
+        }
+    },
+    clearInterval({commit}) {
+        commit('clearMemInterval')
     }
-}
+};
 
-this.interval = setInterval(actions.updateMemoryData, 2000);
-  
 export default {
+    namespaced: true,
     state,
-    getters
+    getters,
+    actions,
+    mutations
 }
   

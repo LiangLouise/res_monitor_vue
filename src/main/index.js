@@ -1,4 +1,5 @@
 import { app, BrowserWindow } from 'electron'
+import fa from "element-ui/src/locale/lang/fa";
 
 /**
  * Set `__static` path to static files in production
@@ -19,8 +20,10 @@ function createWindow () {
    */
   mainWindow = new BrowserWindow({
     height: 563,
-    useContentSize: true,
+    useContentSize: false,
     width: 1000,
+    frame: false,
+    thickFrame: false,
     webPreferences: {
       nodeIntegration: true,
       nodeIntegrationInWorker: true

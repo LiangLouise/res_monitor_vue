@@ -5,7 +5,6 @@ import App from './App'
 import router from './router'
 import store from './store'
 import ElementUI from 'element-ui'
-import 'element-ui/lib/theme-chalk/index.css';
 
 if (!process.env.IS_WEB) Vue.use(require('vue-electron'))
 Vue.http = Vue.prototype.$http = axios
@@ -17,7 +16,16 @@ new Vue({
   components: { App },
   router,
   store,
-  template: '<App/>'
+  template: '<App/>',
+  mounted() {
+    this.$store.dispatch('Mem/initMemData')
+    this.$store.dispatch('Cpu/initCpuData')
+  },
+  beforeDestroy() {
+    this.$store.dispatch('Mem/clearInterval')
+    this.$store.dispatch('Cpu/clearInterval')
+
+  }
 }).$mount('#app')
 
 
