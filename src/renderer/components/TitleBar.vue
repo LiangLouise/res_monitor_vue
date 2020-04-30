@@ -1,7 +1,6 @@
 <template>
     <div class="titleBar">
         <div class="title">{{ title }}</div>
-
         <div class="btnGroup">
             <TitleBarButtons/>
         </div>
@@ -17,6 +16,7 @@
 </script>
 
 <style lang="scss">
+    @import "~element-ui/packages/theme-chalk/lib/divider.css";
     @import "~element-ui/packages/theme-chalk/lib/icon.css";
     @import "./vars";
 
@@ -25,6 +25,7 @@
     }
 
     .titleBar {
+        z-index: 100;
         padding-right: 5px;
         width: calc(100% - 2px);
         position: fixed;

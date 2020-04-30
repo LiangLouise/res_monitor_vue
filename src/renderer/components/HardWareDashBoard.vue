@@ -24,5 +24,5 @@
 </script>
 
 <style lang="scss">
-    @import "~element-ui/packages/theme-chalk/src/progress";
+    @import "~element-ui/lib/theme-chalk/index.css";
 </style>

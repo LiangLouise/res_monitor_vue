@@ -1,20 +1,33 @@
 <template>
-    <el-container>
-        <el-aside width="15%">
-            <SubMenu></SubMenu>
-        </el-aside>
+    <div id="main">
         <el-container>
-            <el-main><DashBoard></DashBoard></el-main>
+            <el-aside width="15%">
+                <SubMenu></SubMenu>
+            </el-aside>
+            <el-container>
+                <el-main>
+                    <HardWareDashBoard v-if="currentTab === 1"/>
+                    <ProcessDashBoard v-else-if="currentTab === 2"/>
+                </el-main>
+            </el-container>
         </el-container>
-    </el-container>
+    </div>
 </template>
 
 <script>
-    import DashBoard from "./DashBoard";
+    import HardWareDashBoard from "./HardWareDashBoard";
     import SubMenu from "./SubMenu";
+    import {mapGetters} from 'vuex';
+    import ProcessDashBoard from "./ProcessDashBoard";
+
     export default {
         name: "Main",
-        components: {SubMenu, DashBoard}
+        components: {ProcessDashBoard, SubMenu, HardWareDashBoard},
+        computed: {
+            ...mapGetters('Tab', [
+                'currentTab'
+            ])
+        }
     }
 </script>
 
@@ -22,11 +35,8 @@
     @import "~element-ui/packages/theme-chalk/lib/index.css";
     @import "./vars";
 
-    .el-header, .el-footer {
-        background-color: #B3C0D1;
-        color: #333;
-        text-align: center;
-        line-height: 60px;
+    #main {
+        padding-top: $titleBar-Height;
     }
 
     .el-aside {
@@ -34,6 +44,7 @@
         color: #333;
         text-align: center;
         line-height: 200px;
+        min-width: 150px;
     }
 
     .el-main {
@@ -41,9 +52,9 @@
         text-align: center;
         line-height: 160px;
         height: calc(100vh - 40px);
-        margin-top: $titleBar-Height;
         padding: 20px;
         overflow-y: auto;
+        position: relative;
     }
 
     body > .el-container {

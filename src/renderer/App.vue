@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <TitleBar :title=programName></TitleBar>
-    <router-view id="main"></router-view>
+    <router-view></router-view>
   </div>
 </template>
 

@@ -7,10 +7,11 @@
 </template>
 
 <script>
-    const win = require('electron').remote.getCurrentWindow();
+    const {remote} = require("electron");
+
+    const win = remote.getCurrentWindow();
 
     export default {
-        props: [ 'title', 'ico' ],
         data() {
             return {
                 isMax: false
@@ -38,8 +39,7 @@
 </script>
 
 <style>
-    @import "~element-ui/packages/theme-chalk/lib/button.css";
-    @import "~element-ui/packages/theme-chalk/lib/icon.css";
+    @import "~element-ui/lib/theme-chalk/index.css";
 
     .title-button {
         cursor: default;
